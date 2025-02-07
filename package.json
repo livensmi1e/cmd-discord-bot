@@ -1,0 +1,17 @@
+{
+    "name": "commander",
+    "version": "1.0.0",
+    "main": "bot.js",
+    "repository": "git@github.com:livensmi1e/cmd-discord-bot.git",
+    "author": "qbao <dangquocbao9504@gmail.com>",
+    "license": "MIT",
+    "scripts": {
+        "dev": "node --watch --env-file=.env bot.js"
+    },
+    "dependencies": {
+        "discord.js": "^14.17.3",
+        "dotenv": "^16.4.7",
+        "undici": "^7.3.0"
+    },
+    "devDependencies": {}
+}
