@@ -6,7 +6,8 @@
     "author": "qbao <dangquocbao9504@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "dev": "node --watch --env-file=.env bot.js"
+        "dev": "node .",
+        "deploy": "node deployCommand.js"
     },
     "dependencies": {
         "discord.js": "^14.17.3",

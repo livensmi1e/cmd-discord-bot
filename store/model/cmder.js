@@ -56,7 +56,7 @@ class Commander {
         while (true) {
             result = await this._getResult();
             if (result.stdout !== null || result.stderr !== null) {
-                break; // Exit loop if we have results
+                break;
             }
             await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait 2 seconds before retrying
         }
