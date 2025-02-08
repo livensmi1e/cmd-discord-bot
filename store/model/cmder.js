@@ -40,7 +40,7 @@ const languageMap = {
         icon: "https://i.imgur.com/cnnYSIE.png",
     },
     go: {
-        id: 95,
+        id: 60,
         name: "go",
         version: "Go (1.18.5)",
         icon: "https://i.imgur.com/a3yrHtU.png",
@@ -60,11 +60,14 @@ class Commander {
         this.sourceCode = sourceCode;
         this.input = stdin;
 
-        this.status = null;
-        this.output = null;
-        this.time = null;
-        this.memory = null;
-        this.error = null;
+        this.status = {
+            description: "Error",
+        };
+        this.output = "Something wrong, but I don't know :_:";
+        this.time = 14300;
+        this.memory = 14300;
+        this.error = "Something wrong, but I don't know :_:";
+        this.compileOutput = "Nothing here";
 
         this.judgeURI = process.env.JUDGE_URI || "http://localhost:2358";
         this.baseURI = `${this.judgeURI}/submissions`;
@@ -84,13 +87,14 @@ class Commander {
             },
             body: JSON.stringify(reqBody),
         });
-        const { token } = await body.json();
-        if (token !== "") {
+        const { token, ...rest } = await body.json();
+        if (token && token !== "") {
             this.token = token;
+            await this._pollForResult();
         } else {
-            console.log("[+] Token not returned");
+            console.log("[-] Token not returned");
+            console.log(rest);
         }
-        await this._pollForResult();
     }
 
     result() {
@@ -112,26 +116,43 @@ class Commander {
         while (true) {
             result = await this._getResult();
             if (result.stdout !== null || result.stderr !== null) {
+                this._processOutput(result);
                 break;
             }
-            await new Promise((resolve) => setTimeout(resolve, 2000)); // Wait 2 seconds before retrying
+            if (result.compile_output !== null) {
+                this._processOutput(result);
+                break;
+            }
+            await new Promise((resolve) => setTimeout(resolve, 2000));
         }
-        this._processOutput(result);
     }
 
     async _getResult() {
         const { body } = await request(
-            `${this.baseURI}/${this.token}?base64_encoded=true&fields=stdout,stderr,time,memory,status`
+            `${this.baseURI}/${this.token}?base64_encoded=true&fields=stdout,stderr,time,memory,status,compile_output`
         );
         return await body.json();
     }
 
     _processOutput(body) {
-        this.output = body.stdout ? decodeBase64(body.stdout) : null;
-        this.error = body.stderr ? decodeBase64(body.stderr) : null;
-        this.time = body.time;
-        this.memory = body.memory;
-        this.status = body.status;
+        if (body.stdout) {
+            this.output = decodeBase64(body.stdout);
+        }
+        if (body.stderr) {
+            this.error = decodeBase64(body.stderr);
+        }
+        if (body.compile_output) {
+            this.compileOutput = decodeBase64(body.compile_output);
+        }
+        if (body.time) {
+            this.time = body.time;
+        }
+        if (body.memory) {
+            this.memory = body.memory;
+        }
+        if (body.status) {
+            this.status = body.status;
+        }
     }
 }
 

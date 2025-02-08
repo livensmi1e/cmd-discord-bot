@@ -32,7 +32,7 @@ const run = async (message, lang, source) => {
             iconURL: `${result.language.icon}`,
         });
 
-    await message.reply({ embeds: [outputEmbed] });
+    await message.channel.send({ embeds: [outputEmbed] });
 };
 
 module.exports = run;

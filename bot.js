@@ -21,7 +21,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         }
     } catch (err) {
         await interaction.reply(`Something went wrong`);
-        console.error(e);
+        console.error(err);
     }
 });
 
@@ -43,7 +43,7 @@ client.once(Events.ClientReady, async (client) => {
     try {
         console.log(`User ${client.user.username} logged in`);
     } catch (err) {
-        console.error(e);
+        console.error(err);
     }
 });
 
