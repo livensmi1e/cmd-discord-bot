@@ -1,4 +1,4 @@
-Discord bot for remote code execution
+Discord bot for remote code execution using Judge0 API
 
 Todo
 
