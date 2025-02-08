@@ -1,6 +1,6 @@
 const { REST, Routes } = require("discord.js");
 require("dotenv").config();
-const commands = require("./commands");
+const commands = require("./commands/slash");
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const GUILD_ID = process.env.GUILD_ID;
