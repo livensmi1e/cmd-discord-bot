@@ -2,8 +2,8 @@ Discord bot for remote code execution
 
 Todo
 
--   [ ] Add database
--   [ ] Stat command
+-   [x] Add database
+-   [x] Stat command
 -   [ ] Help command
 -   [ ] Syntax Highlight
 -   [ ] Deploy

@@ -32,9 +32,12 @@ client.on(Events.MessageCreate, async (message) => {
             let content = message.content.substring(1);
             let [cmd, lang, source] = parse(content);
             commands[cmd](message, lang, source);
+        } else if (message.content.startsWith("/")) {
+            let cmd = message.content.substring(1);
+            commands[cmd](message);
         }
     } catch (err) {
-        await message.reply("Something went wrong");
+        await message.channel.send("Something went wrong");
         console.error(err);
     }
 });
